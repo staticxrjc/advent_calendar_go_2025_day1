@@ -14,7 +14,20 @@ func TestDecoder_GetPassword(t *testing.T) {
 		fields fields
 		want   int
 	}{
-		// TODO: Add test cases.
+		{
+			name: "Get password initializes to 0",
+			fields: fields{
+				Dial: NewDial(0),
+			},
+			want: 0,
+		},
+		{
+			name: "Passing 0 once yields 1",
+			fields: fields{
+				&Dial{NumHits: 1},
+			},
+			want: 1,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

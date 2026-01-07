@@ -52,15 +52,41 @@ func TestDecoder_TurnDial(t *testing.T) {
 		name   string
 		fields fields
 		args   args
+		want   int
 	}{
-		// TODO: Add test cases.
+		{
+			name: "Test turn R68",
+			fields: fields{
+				Dial: NewDial(0),
+			},
+			args: args{
+				input: "R68",
+			},
+			want: 68,
+		},
+		{
+			name: "Test turn L68",
+			fields: fields{
+				Dial: NewDial(0),
+			},
+			args: args{
+				input: "L68",
+			},
+			want: 32,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			d := &Decoder{
 				Dial: tt.fields.Dial,
 			}
-			d.TurnDial(tt.args.input)
+			err := d.TurnDial(tt.args.input)
+			if err != nil {
+				t.Errorf("Function had bad input")
+			}
+			if got := d.Dial.Position; got != tt.want {
+				t.Errorf("Got %d, wanted %d", got, tt.want)
+			}
 		})
 	}
 }
